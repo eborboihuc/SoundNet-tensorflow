@@ -5,7 +5,7 @@ name = sys.argv[1]
 dec  = int(sys.argv[2]) if len(sys.argv) >= 3 else 4
 
 th = np.load('output/demo_th.npy').item()['layer{}'.format(name)].T
-tf = np.load('output/tf_fea{}.npy'.format(name))
+tf = np.load('output/tf_fea{}.npy'.format(str(name).zfill(2)))
 if name == '25':
     tf = np.concatenate([tf, np.load('output/tf_fea26.npy')], 1)
 
