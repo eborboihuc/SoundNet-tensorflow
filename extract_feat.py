@@ -1,6 +1,6 @@
 # TensorFlow version of NIPS2016 soundnet
 
-from util import preprocess, load_from_txt
+from util import load_from_txt
 from model import Model
 import tensorflow as tf
 import numpy as np
@@ -24,7 +24,7 @@ def parse_args():
 
     parser.add_argument('-o', '--outpath', dest='outpath', help='output feature path. e.g., [output]', default='output')
 
-    parser.add_argument('-p', '--phase', dest='phase', help='demo or extract feature. e.g., [demo, feat]', default='demo')
+    parser.add_argument('-p', '--phase', dest='phase', help='demo or extract feature. e.g., [demo, extract]', default='extract')
 
     parser.add_argument('-m', '--layer', dest='layer_min', help='start from which feature layer. e.g., [1]', type=int, default=1)
 

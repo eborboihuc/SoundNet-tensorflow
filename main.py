@@ -3,7 +3,7 @@
 # $ pip install librosa
 
 from ops import batch_norm, conv2d, relu, maxpool
-from util import preprocess, load_from_list
+from util import preprocess, load_from_list, load_audio
 from model import Model
 from glob import glob
 
@@ -126,7 +126,7 @@ class Model():
 
             # Split one: conv8, conv8_2
             # NOTE: here we use a padding of 2 to skip an unknown error
-            # https://github.com/dennybritz/cnn-text-classification-tf/issues/8#issuecomment-209528768
+            # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/framework/common_shape_fns.cc#L45
             self.layers[25] = conv2d(self.layers[24], 1024, 1000, k_h=8, d_h=2, p_h=2, name_scope='conv8')
             self.layers[26] = conv2d(self.layers[24], 1024, 401, k_h=8, d_h=2, p_h=2, name_scope='conv8_2')
 
@@ -269,11 +269,12 @@ def main():
             from extract_feat import extract_feat
 
             # Feature extractor
-            sound_sample = np.reshape(np.load('./data/demo.npy'), [local_config['batch_size'], -1, 1, 1])
+            #sound_sample = np.reshape(np.load('./data/demo.npy'), [local_config['batch_size'], -1, 1, 1])
             
-            #import librosa
-            #audio_path = './data/demo.mp3'
-            #sound_sample, _ = librosa.load(audio_path, mono=True)
+            import librosa
+            audio_path = './data/fireworks_shift_1274_6.mp3'
+            sound_sample, _ = load_audio(audio_path)
+            sound_sample = preprocess(sound_sample, config=local_config)
 
             output = extract_feat(model, sound_sample, args)
 
