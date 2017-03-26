@@ -74,7 +74,7 @@ if __name__ == '__main__':
         
     if args.phase == 'demo':
         # Demo
-        sound_samples = [np.reshape(np.load('data/demo.npy'), [local_config['batch_size'], -1, 1, 1])]
+        sound_samples = [np.reshape(np.load('data/demo.npy'), [1, -1, 1, 1])]
     else: 
         # Extract Feature
         sound_samples = load_from_txt(args.audio_txt, config=local_config)

@@ -24,6 +24,16 @@ cd SoundNet-tensorflow
 - Pretrained Model
 
 I provide pre-trained models that are ported from [soundnet](http://data.csail.mit.edu/soundnet/soundnet_models_public.zip). You can download the 8 layer model [here](https://drive.google.com/uc?export=download&id=0B9wE6h4m--wjR015M1RLZW45OEU).
+The model locates under ./models/sound8.npy in your folder.
+
+
+- NOTE
+
+If you found out that [some audio with offset value `start` in FFMPEG will cause a tremendous difference between `torch audio` and `librosa`](#FAQs), please **convert it** with following command.
+```
+sox {input.mp3} {output.mp3} trim 0
+```
+After this, the result might be much better.
 
 # Demo
 To extract multiple features from a pretrained model with torch `lua audio` loaded sound track:
@@ -90,9 +100,13 @@ python main.py -h
 - Training with a short length audio will make conv8 complain about [output size would be negative](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/framework/common_shape_fns.cc#L45)
 
 
+# FAQs
+
+- Why my loaded sound wave is different from `torch7 audio` to `librosa`: Here is my [WiKi](https://github.com/eborboihuc/SoundNet-tensorflow/wiki/info.md)
+
 # Acknowledgments
 
-Code ported from [soundnet](https://github.com/cvondrick/soundnet). Thanks for their excellent work!
+Code ported from [soundnet](https://github.com/cvondrick/soundnet). And Torch7-Tensorflow loader are from [tf_videogan](https://github.com/Yuliang-Zou/tf_videogan). Thanks for their excellent work!
 
 
 ## Author

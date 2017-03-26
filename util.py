@@ -9,9 +9,11 @@ local_config = {
 
 
 def load_from_list(name_list, config=local_config):
+    assert len(name_list) == config['batch_size'], \
+            "The length of name_list({})[{}] is not the same as batch_size[{}]".format(
+                    name_list[0], len(name_list), config['batch_size'])
     audios = np.zeros([config['batch_size'], config['load_size'], 1, 1])
     for idx, audio_path in enumerate(name_list):
-        # By default, librosa will resample the signal to 22050Hz. And range in (-1., 1.)
         sound_sample, _ = load_audio(audio_path)
         audios[idx] = preprocess(sound_sample, config)
         
@@ -24,7 +26,6 @@ def load_from_txt(txt_name, config=local_config):
 
     audios = []
     for idx, audio_path in enumerate(txt_list):
-        # By default, librosa will resample the signal to 22050Hz. And range in (-1., 1.)
         sound_sample, _ = load_audio(audio_path)
         audios.append(preprocess(sound_sample, config))
         
@@ -37,6 +38,7 @@ def load_from_txt(txt_name, config=local_config):
 # 3. Keep range in [-256, 256]
 
 def load_audio(audio_path, sr=None):
+    # By default, librosa will resample the signal to 22050Hz(sr=None). And range in (-1., 1.)
     sound_sample, sr = librosa.load(audio_path, sr=sr, mono=False)
 
     return sound_sample, sr
