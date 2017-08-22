@@ -23,8 +23,21 @@ cd SoundNet-tensorflow
 
 - Pretrained Model
 
-I provide pre-trained models that are ported from [soundnet](http://data.csail.mit.edu/soundnet/soundnet_models_public.zip). You can download the 8 layer model [here](https://drive.google.com/uc?export=download&id=0B9wE6h4m--wjR015M1RLZW45OEU).
-The model locates under ./models/sound8.npy in your folder.
+I provide pre-trained models that are ported from [soundnet](http://data.csail.mit.edu/soundnet/soundnet_models_public.zip). You can download the 8 layer model [here](https://drive.google.com/uc?export=download&id=0B9wE6h4m--wjR015M1RLZW45OEU). Please place it as `./models/sound8.npy` in your folder.
+
+- Data
+
+Prepare you input mp3 files and place them under `./data/`
+
+Generate a input file txt and place it under `./`
+```txt
+./data/0001.mp3
+./data/0002.mp3
+./data/0003.mp3
+...
+```
+
+Follow the steps in [extrack features](#feature-extraction)
 
 
 - NOTE
@@ -36,19 +49,36 @@ sox {input.mp3} {output.mp3} trim 0
 After this, the result might be much better.
 
 # Demo
-To extract multiple features from a pretrained model with torch `lua audio` loaded sound track:
-The sound track ./data/[demo.npy](https://drive.google.com/uc?export=download&id=0B9wE6h4m--wjcEtqQ3VIM1pvZ3c) is equivalent with torch version.
+
+For demo, you can follow the following steps
+
+i) Download a converted npy file [demo.npy](https://drive.google.com/uc?export=download&id=0B9wE6h4m--wjcEtqQ3VIM1pvZ3c) and place it under `./data/`
+
+ii) To extract multiple features from a pretrained model with torch `lua audio` loaded sound track:
+The sound track is equivalent with torch version.
 ```bash
 python extract_feat.py -m {start layer number} -x {end layer numbe} -s
 ```
 
-Or extract features from raw wave in demo.txt:
-The demo puts under ./data/[demo.mp3](https://drive.google.com/uc?export=download&id=0B9wE6h4m--wjTjVEWVI3dnBsTG8)
+
+# Feature Extraction 
+
+## Minimum example
+i) Download input file [demo.mp3](https://drive.google.com/uc?export=download&id=0B9wE6h4m--wjTjVEWVI3dnBsTG8) and place it under `./data/`
+
+ii) Prepare a file list in `txt` format (`demo.txt`) that includes the input mp3 file(s) and place it under `./`
+```txt
+./data/demo.mp3
+```
+
+iii) Then extract features from raw wave in `demo.txt`:
+Please put the demo mp3 under ./data/[demo.mp3](https://drive.google.com/uc?export=download&id=0B9wE6h4m--wjTjVEWVI3dnBsTG8)
 ```bash
 python extract_feat.py -m {start layer number} -x {end layer numbe} -s -t demo.txt
 ```
 
-# Feature Extraction
+## More options
+
 To extract multiple features from a pretrained model with downloaded mp3 dataset:
 ```bash
 python extract_feat.py -t {dataset_txt_name} -m {start layer number} -x {end layer numbe} -s -p extract
@@ -63,6 +93,7 @@ More details are in:
 ```bash
 python extract_feat.py -h
 ```
+
 
 # Finetuning
 To train from an existing model:
@@ -89,6 +120,7 @@ python main.py -h
 # TODOs
 
 - [x] Change audio loader to soundnet format
+- [x] Make it compatible to Python 3 format
 - [ ] Fix conv8 padding issue in training phase
 - [ ] Change all `config` into `tf.app.flags`  
 - [ ] Change dummy distribution of scene and object to useful placeholder
