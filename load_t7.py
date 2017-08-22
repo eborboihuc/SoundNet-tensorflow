@@ -6,6 +6,11 @@ import torchfile
 import numpy as np
 import pdb
 
+# Make xrange compatible in both Python 2, 3
+try:
+    xrange
+except NameError:
+    xrange = range
 
 keys = ['conv1', 'conv2', 'conv3', 'conv4', 'conv5', 'conv6',
         'conv7', 'conv8', 'conv8_2']
@@ -62,10 +67,10 @@ def show(o):
         # {layer i: {mylist keys: value}}
         nn_info[i] = {key: nn[i][key] for key in sorted(nn_keys[i]) if key in mylist}
         nn_info[i]['name'] = o['modules'][i]._typename
-        print i, nn_info[i]['name']
+        print(i, nn_info[i]['name'])
         for item in sorted(nn_info[i].keys()): 
-            print "  ", item, ":", nn_info[i][item] if 'running' not in item \
-                                                    else nn_info[i][item].shape
+            print("  {}:{}".format(item, nn_info[i][item] if 'running' not in item \
+                                                        else nn_info[i][item].shape))
 
 
 def get_mylist():

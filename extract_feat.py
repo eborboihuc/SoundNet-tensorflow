@@ -8,6 +8,12 @@ import argparse
 import sys
 import os
 
+# Make xrange compatible in both Python 2, 3
+try:
+    xrange
+except NameError:
+    xrange = range
+
 local_config = {  
             'batch_size': 1, 
             'eps': 1e-5,
@@ -55,8 +61,8 @@ def extract_feat(model, sound_input, config):
         if config.is_save:
             np.save(os.path.join(config.outpath, 'tf_fea{}.npy'.format( \
                 str(idx).zfill(2))), np.squeeze(feature))
-            print "Save layer {} with shape {} as {}/tf_fea{}.npy".format( \
-                    idx, np.squeeze(feature).shape, config.outpath, str(idx).zfill(2))
+            print("Save layer {} with shape {} as {}/tf_fea{}.npy".format( \
+                    idx, np.squeeze(feature).shape, config.outpath, str(idx).zfill(2)))
     
     return features
 
@@ -70,11 +76,11 @@ if __name__ == '__main__':
 
     # Load pre-trained model
     G_name = './models/sound8.npy'
-    param_G = np.load(G_name).item()
+    param_G = np.load(G_name, encoding = 'latin1').item()
         
     if args.phase == 'demo':
         # Demo
-        sound_samples = [np.reshape(np.load('data/demo.npy'), [1, -1, 1, 1])]
+        sound_samples = [np.reshape(np.load('data/demo.npy', encoding='latin1'), [1, -1, 1, 1])]
     else: 
         # Extract Feature
         sound_samples = load_from_txt(args.audio_txt, config=local_config)

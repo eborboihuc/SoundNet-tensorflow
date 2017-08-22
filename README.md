@@ -9,7 +9,7 @@ Code for paper "[SoundNet: Learning Sound Representations from Unlabeled Video](
 
 - Linux
 - NVIDIA GPU + CUDA 8.0 + CuDNNv5.1
-- Python 2.7 with numpy
+- Python 2.7 with numpy or Python 3.5
 - [Tensorflow](https://www.tensorflow.org/) 0.12.1
 - librosa
 

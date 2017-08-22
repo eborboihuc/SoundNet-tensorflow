@@ -1,8 +1,8 @@
 # Data
-data
+data/*
 *.zip
 output
-models
+models/*
 
 # checkpoint
 *logs

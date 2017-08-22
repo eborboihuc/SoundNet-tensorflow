@@ -5,6 +5,12 @@ import numpy as np
 import tensorflow as tf
 from ops import batch_norm, conv2d, relu, maxpool
 
+# Make xrange compatible in both Python 2, 3
+try:
+    xrange
+except NameError:
+    xrange = range
+
 local_config = {  
             'batch_size': 1, 
             'eps': 1e-5,
@@ -14,7 +20,7 @@ local_config = {
 class Model():
     def __init__(self, session, config=local_config, param_G=None):
         # Print config
-        for key in config: print key, ":", config[key]
+        for key in config: print("{}:{}".format(key, config[key]))
 
         self.sess           = session
         self.config         = config
@@ -82,9 +88,9 @@ class Model():
                     try:
                         var = tf.get_variable(subkey)
                         self.sess.run(var.assign(data_dict[key][subkey]))
-                        print 'Assign pretrain model ' + subkey + ' to ' + key
+                        print('Assign pretrain model {} to {}'.format(subkey, key))
                     except:
-                        print 'Ignore ' + key
+                        print('Ignore {}'.format(key))
         self.param_G.clear()
         return True
 
@@ -96,7 +102,7 @@ if __name__ == '__main__':
     
     # Load pre-trained model
     G_name = './models/sound8.npy'
-    param_G = np.load(G_name).item()
+    param_G = np.load(G_name, encoding='latin1').item()
     dump_path = './output/'
 
     with tf.Session() as session:
@@ -108,12 +114,12 @@ if __name__ == '__main__':
         model.load()
         
         # Demo
-        sound_input = np.reshape(np.load('data/demo.npy'), [local_config['batch_size'], -1, 1, 1])
+        sound_input = np.reshape(np.load('data/demo.npy', encoding='latin1'), [local_config['batch_size'], -1, 1, 1])
         feed_dict = {model.sound_input_placeholder: sound_input}
         
         # Forward
         for idx in xrange(layer_min, layer_max):
             feature = session.run(model.layers[idx], feed_dict=feed_dict)
             np.save(dump_path + 'tf_fea{}.npy'.format(str(idx).zfill(2)), np.squeeze(feature))
-            print "Save layer {} with shape {} as {}tf_fea{}.npy".format(idx, np.squeeze(feature).shape, dump_path, str(idx).zfill(2))
+            print("Save layer {} with shape {} as {}tf_fea{}.npy".format(idx, np.squeeze(feature).shape, dump_path, str(idx).zfill(2)))
 

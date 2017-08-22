@@ -14,6 +14,13 @@ import time
 import sys
 import os
 
+
+# Make xrange compatible in both Python 2, 3
+try:
+    xrange
+except NameError:
+    xrange = range
+
 local_config = {
             'batch_size': 1, 
             'train_size': np.inf,
@@ -154,7 +161,7 @@ class Model():
                             self.object_dist: np.random.randint(2, size=(1, 1, 1000))})
                 self.writer.add_summary(summary_str, self.counter)
 
-                print "[Epoch {}] {}/{} | Time: {} | scene_loss: {} | obj_loss: {}".format(epoch, idx, batch_idxs, time.time() - start_time, l_scn, l_obj)
+                print ("[Epoch {}] {}/{} | Time: {} | scene_loss: {} | obj_loss: {}".format(epoch, idx, batch_idxs, time.time() - start_time, l_scn, l_obj))
 
                 if np.mod(self.counter, 1000) == 1000 - 1:
                     self.save(self.config['checkpoint_dir'], self.counter)
@@ -228,9 +235,9 @@ class Model():
                     try:
                         var = tf.get_variable(subkey)
                         self.sess.run(var.assign(data_dict[key][subkey]))
-                        print 'Assign pretrain model ' + subkey + ' to ' + key
+                        print('Assign pretrain model {} to {}'.format(subkey, key))
                     except:
-                        print 'Ignore ' + key
+                        print('Ignore {}'.format(key))
         
         self.param_G.clear()
         return True
@@ -248,7 +255,7 @@ def main():
         os.mkdir(args.outpath)
     
     # Load pre-trained model
-    param_G = np.load(local_config['param_g_dir']).item() \
+    param_G = np.load(local_config['param_g_dir'], encoding='latin1').item() \
             if args.phase in ['finetune', 'extract'] \
             else None
 
@@ -269,10 +276,10 @@ def main():
             from extract_feat import extract_feat
 
             # Feature extractor
-            #sound_sample = np.reshape(np.load('./data/demo.npy'), [local_config['batch_size'], -1, 1, 1])
+            #sound_sample = np.reshape(np.load('./data/demo.npy', encoding='latin1'), [local_config['batch_size'], -1, 1, 1])
             
             import librosa
-            audio_path = './data/fireworks_shift_1274_6.mp3'
+            audio_path = './data/demo.mp3'
             sound_sample, _ = load_audio(audio_path)
             sound_sample = preprocess(sound_sample, config=local_config)
 
