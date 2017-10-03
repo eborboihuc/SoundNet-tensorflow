@@ -31,6 +31,7 @@ local_config = {
             'load_size': 22050*4,
             'sample_rate': 22050,
             'name_scope': 'SoundNet',
+            'phase': 'train',
             'dataset_name': 'ESC50',
             'subname': 'mp3',
             'checkpoint_dir': 'checkpoint',
@@ -174,7 +175,7 @@ class Model():
     #########################
     # Adapt the answer here: http://stackoverflow.com/questions/41863814/kl-divergence-in-tensorflow
     def KL_divergence(self, dist_a, dist_b, name_scope='KL_Div'):
-        return tf.reduce_mean(-tf.nn.softmax_cross_entropy_with_logits(dist_a, dist_b))
+        return tf.reduce_mean(-tf.nn.softmax_cross_entropy_with_logits(logits=dist_a, labels=dist_b))
 
 
     #########################
@@ -246,6 +247,7 @@ class Model():
 def main():
 
     args = parse_args()
+    local_config['phase'] = args.phase
 
     # Setup visible device
     os.environ["CUDA_VISIBLE_DEVICES"] = args.cuda_device

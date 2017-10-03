@@ -20,6 +20,7 @@ size = tf.shape[0] if tf.shape[0] < th.shape[0] else th.shape[0]
 print('Round to {} decimals'.format(dec))
 tf = np.round(tf, decimals=dec)
 th = np.round(th, decimals=dec)
-print('Total Diff:', np.sum(abs(tf[:size] - th[:size])), \
-      '\nMax Diff:', np.max(tf[:size] - th[:size]), \
-      '\nMin Diff:', np.min(tf[:size] - th[:size]))
+print('Total Diff: {} Max Diff: {} Min Diff: {}'.format(
+    np.sum(abs(tf[:size] - th[:size])), \
+    np.max(tf[:size] - th[:size]), \
+    np.min(tf[:size] - th[:size])))

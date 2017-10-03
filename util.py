@@ -5,6 +5,7 @@ import pdb
 local_config = {
             'batch_size': 64, 
             'load_size': 22050*20,
+            'phase': 'extract'
             }
 
 
@@ -52,9 +53,13 @@ def preprocess(raw_audio, config=local_config):
     # Make range [-256, 256]
     raw_audio *= 256.0
 
-    # Use length or Not
+    # Make minimum length available
     length = config['load_size']
-    if length is not None:
+    if length > raw_audio.shape[0]:
+        raw_audio = np.tile(raw_audio, length/raw_audio.shape[0] + 1)
+
+    # Make equal training length
+    if config['phase'] != 'extract':
         raw_audio = raw_audio[:length]
 
     # Check conditions

@@ -10,7 +10,7 @@ Code for paper "[SoundNet: Learning Sound Representations from Unlabeled Video](
 - Linux
 - NVIDIA GPU + CUDA 8.0 + CuDNNv5.1
 - Python 2.7 with numpy or Python 3.5
-- [Tensorflow](https://www.tensorflow.org/) 0.12.1
+- [Tensorflow](https://www.tensorflow.org/) 1.0.0 (up to 1.3.0)
 - librosa
 
 
@@ -37,7 +37,7 @@ Generate a input file txt and place it under `./`
 ...
 ```
 
-Follow the steps in [extrack features](#feature-extraction)
+Follow the steps in [extract features](#feature-extraction)
 
 
 - NOTE
@@ -60,6 +60,7 @@ The sound track is equivalent with torch version.
 python extract_feat.py -m {start layer number} -x {end layer numbe} -s
 ```
 
+Then you can compare the outputs with torch ones.
 
 # Feature Extraction 
 
@@ -74,7 +75,7 @@ ii) Prepare a file list in `txt` format (`demo.txt`) that includes the input mp3
 iii) Then extract features from raw wave in `demo.txt`:
 Please put the demo mp3 under ./data/[demo.mp3](https://drive.google.com/uc?export=download&id=0B9wE6h4m--wjTjVEWVI3dnBsTG8)
 ```bash
-python extract_feat.py -m {start layer number} -x {end layer numbe} -s -t demo.txt
+python extract_feat.py -m {start layer number} -x {end layer numbe} -s -p extract -t demo.txt
 ```
 
 ## More options
@@ -121,6 +122,7 @@ python main.py -h
 
 - [x] Change audio loader to soundnet format
 - [x] Make it compatible to Python 3 format
+- [ ] Batch Norm behaviour different from Torch
 - [ ] Fix conv8 padding issue in training phase
 - [ ] Change all `config` into `tf.app.flags`  
 - [ ] Change dummy distribution of scene and object to useful placeholder

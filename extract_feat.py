@@ -20,6 +20,7 @@ local_config = {
             'sample_rate': 22050,
             'load_size': 22050*20,
             'name_scope': 'SoundNet',
+            'phase': 'extract',
             }
 
 def parse_args():
@@ -30,7 +31,7 @@ def parse_args():
 
     parser.add_argument('-o', '--outpath', dest='outpath', help='output feature path. e.g., [output]', default='output')
 
-    parser.add_argument('-p', '--phase', dest='phase', help='demo or extract feature. e.g., [demo, extract]', default='extract')
+    parser.add_argument('-p', '--phase', dest='phase', help='demo or extract feature. e.g., [demo, extract]', default='demo')
 
     parser.add_argument('-m', '--layer', dest='layer_min', help='start from which feature layer. e.g., [1]', type=int, default=1)
 
